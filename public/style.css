@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+/* General Body Styling */
+body {
+    background: linear-gradient(135deg, #1e1e2f, #2c2c54);
+    margin: 20px;
+    color: #e0e0e0;
+}
+
+/* Center Content */
+.center-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+}
+
+h1 {
+    color: #00f7ff;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* Section Title Styling */
+.section-title {
+    color: #00f7ff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+h2 {
+    color: #00f7ff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Center the Navigation Buttons */
+nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px; /* Space between buttons */
+    margin-top: 20px;
+}
+
+/* Navigation and Links */
+nav a {
+  display: inline-block;
+  margin: 10px 0;
+  padding: 12px 24px;
+  background-color: #27293d;
+  color: #00f7ff;
+  border: 1px solid #00f7ff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+nav a:hover {
+  background-color: #00f7ff;
+  color: #1e1e2f;
+}
+
+/* Form Styling */
+form {
+    margin-top: 20px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+/* Form Labels */
+label {
+    display: inline-block;
+    width: 120px;
+    font-weight: 600;
+    color: #000000;
+}
+
+input, button, textarea {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+input, textarea {
+    width: 200px;
+}
+
+textarea {
+    height: 80px;
+}
+
+/* Button Styling */
+button {
+    background-color: #00f7ff;
+    color: #1e1e2f;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+button:hover {
+    background-color: #00c3cc;
+}
+
+/* Delete Button */
+button.delete {
+    background-color: #dc3545;
+}
+
+button.delete:hover {
+    background-color: #c82333;
+}
+
+/* Edit Button */
+button.edit {
+    background-color: #ffc107;
+}
+
+button.edit:hover {
+    background-color: #e0a800;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background-color: #27293d;
+    color: #00f7ff;
+}
+
+/* Update td to ensure white text for the products section */
+td {
+    color: #ffffff;
+}
+
+/* Alternating Row Colors */
+tr:nth-child(even) {
+    background-color: #2b2b3f;
+}
+
+/* Hover Effect */
+tr:hover {
+    background-color: #393957;
+}
+
+/* Table Button Styling */
+table button {
+    margin: 5px;
+    padding: 8px 12px;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Adjust Button Styling */
+button.edit {
+    background-color: #ffc107;
+    color: black;
+}
+
+button.edit:hover {
+    background-color: #e0a800;
+}
+
+button.delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+button.delete:hover {
+    background-color: #c82333;
+}
+
+/* Tech Icons */
+.tech-icons {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 40px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 600px) {
+    input, textarea {
+        width: 100%;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    table button {
+        padding: 5px 8px;
+        font-size: 10px;
+    }
+}

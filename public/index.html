@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <title>Inventory Management System</title>
+</head>
+<body>
+  <h1>Welcome to the Electronic Inventory Management System</h1>
+  
+  <nav>
+    <a href="products.html">Manage Products</a>
+    <a href="categories.html">Manage Categories</a>
+    <a href="suppliers.html">Manage Suppliers</a>
+    <a href="forecast.html">Sales Forecast</a>
+    <a href="supplier-performance.html">Supplier Performance</a>
+  </nav>
+   
+  <section style="margin-top: 30px;">
+    <h2>Manual Reorder</h2>
+    <button onclick="triggerReorder()">Reorder Products Now</button>
+    <p id="reorderResult"></p>
+  </section>
+
+  <script>
+    function triggerReorder() {
+      fetch('/api/reorder', { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('reorderResult').innerText = data.message || "Reorder triggered.";
+        })
+        .catch(err => {
+          console.error(err);
+          document.getElementById('reorderResult').innerText = "Error occurred while reordering.";
+        });
+    }
+  </script>
+</body>
+</html>

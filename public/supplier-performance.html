@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Supplier Performance Dashboard</title>
+  <a href="index.html" style="display: inline-block; padding: 8px 16px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px; margin-bottom: 20px;">← Go Back Home</a>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    .good {
+      background-color: #d4edda;
+    }
+    .poor {
+      background-color: #f8d7da;
+    }
+  </style>
+</head>
+<body>
+  <h1>Supplier Performance Dashboard</h1>
+  
+  <table id="supplierTable">
+    <thead>
+      <tr>
+        <th>Supplier</th>
+        <th>Total Orders</th>
+        <th>Delivered Orders</th>
+        <th>Avg Delivery Days</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <canvas id="barChart" width="600" height="300"></canvas>
+
+  <script>
+    fetch('/api/suppliers/performance/all')
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.querySelector('#supplierTable tbody');
+        const labels = [];
+        const avgDays = [];
+
+        data.forEach(supplier => {
+          const tr = document.createElement('tr');
+
+          // Color coding
+          const isGood = parseFloat(supplier.avg_delivery_days) <= 3;
+          const rowClass = isNaN(supplier.avg_delivery_days) ? '' : (isGood ? 'good' : 'poor');
+
+          tr.innerHTML = `
+            <td>${supplier.supplier_name}</td>
+            <td>${supplier.total_orders}</td>
+            <td>${supplier.delivered_orders}</td>
+            <td class="${rowClass}">${supplier.avg_delivery_days ?? 'N/A'}</td>
+          `;
+
+          tbody.appendChild(tr);
+
+          if (supplier.avg_delivery_days !== null) {
+            labels.push(supplier.supplier_name);
+            avgDays.push(Number(supplier.avg_delivery_days));
+          }
+        });
+
+        const ctx = document.getElementById('barChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Avg Delivery Days',
+              data: avgDays,
+              backgroundColor: 'rgba(54, 162, 235, 0.6)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: 'Days'
+                }
+              },
+              x: {
+                title: {
+                  display: true,
+                  text: 'Supplier'
+                }
+              }
+            }
+          }
+        });
+      })
+      .catch(err => {
+        document.body.innerHTML += '<p style="color: red;">Error loading supplier performance data.</p>';
+        console.error(err);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+  <title>Manage Categories</title>
+</head>
+<body>
+  <h1>Category Management</h1>
+  <div class="mb-4">
+    <a href="index.html" style="display: inline-block; padding: 8px 16px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px; margin-bottom: 20px;">← Go Back Home</a>
+
+  </div>
+  
+  <!-- Form to Add Category -->
+  <h2>Add New Category</h2>
+  <form id="category-form">
+    <label>Category Name: <input type="text" id="category_name" required /></label>
+    <button type="submit">Add Category</button>
+  </form>
+
+  <!-- Form to Edit Category -->
+  <h2>Edit Category</h2>
+  <form id="edit-category-form" style="display: none;">
+    <input type="hidden" id="edit_category_id" />
+    <label>Category Name: <input type="text" id="edit_category_name" required /></label>
+    <button type="submit">Update Category</button>
+  </form>
+
+  <!-- Category List -->
+  <h2>All Categories</h2>
+  <table id="category-table" border="1">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Category Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</body>
+</html>

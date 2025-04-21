@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sales Forecast</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Sales Forecast Tool</h1>
+  <a href="index.html" style="display: inline-block; padding: 8px 16px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px; margin-bottom: 20px;">← Go Back Home</a>
+
+
+  <label for="productId">Enter Product ID:</label>
+  <input type="text" id="productId" />
+  <button onclick="getForecast()">Get Forecast</button>
+
+  <canvas id="forecastChart" width="600" height="300"></canvas>
+  <p id="result"></p>
+
+  <script>
+    let chartInstance;
+
+    function getForecast() {
+      const productId = document.getElementById("productId").value;
+      fetch(`/api/forecast/${productId}`)
+        .then(res => res.json())
+        .then(data => {
+          
+          const historyLabels = data.history.map(e => e.date);
+          const historyValues = data.history.map(e => e.total);
+          const forecastLabels = data.forecast.map(e => e.date);
+          const forecastValues = data.forecast.map(e => e.total);
+
+          const labels = [...historyLabels, ...forecastLabels];
+
+          const paddedHistory = [...historyValues, ...Array(forecastValues.length).fill(null)];
+          const paddedForecast = [...Array(historyValues.length).fill(null), ...forecastValues];
+
+          if (chartInstance) chartInstance.destroy();
+
+          const ctx = document.getElementById('forecastChart').getContext('2d');
+          chartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: 'Historical Sales',
+                  data: paddedHistory,
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                  fill: false,
+                  tension: 0
+                },
+                {
+                  label: 'Forecasted Sales',
+                  data: paddedForecast,
+                  borderColor: 'rgba(255, 206, 86, 1)',
+                  backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                  fill: false,
+                  tension: 0
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: {
+                  display: true,
+                  position: 'top',
+                  labels: {
+                    color: '#333',
+                    font: {
+                      size: 14,
+                      weight: 'bold'
+                    }
+                  }
+                },
+                tooltip: {
+                  callbacks: {
+                    title: function (context) {
+                      const label = context[0].label;
+                      return label.includes('Forecast') ? label : new Date(label).toLocaleDateString();
+                    },
+                    label: function (context) {
+                      return `Sales: ${context.parsed.y}`;
+                    }
+                  }
+                },
+                title: {
+                  display: true,
+                  text: '7-Day Forecast vs Historical Sales',
+                  font: {
+                    size: 18,
+                    weight: 'bold'
+                  },
+                  padding: {
+                    top: 10,
+                    bottom: 20
+                  }
+                }
+              },
+              layout: {
+                padding: {
+                  top: 20,
+                  bottom: 20,
+                  left: 10,
+                  right: 10
+                }
+              },
+              scales: {
+                x: {
+                  ticks: {
+                    maxRotation: 45,
+                    minRotation: 0,
+                    autoSkip: false
+                  },
+                  title: {
+                    display: true,
+                    text: 'Date',
+                    font: {
+                      size: 14,
+                      weight: 'bold'
+                    }
+                  }
+                },
+                y: {
+                  beginAtZero: true,
+                  suggestedMax: 100,
+                  title: {
+                    display: true,
+                    text: 'Quantity Sold',
+                    font: {
+                      size: 14,
+                      weight: 'bold'
+                    }
+                  }
+                }
+              }
+            }
+          });
+
+          document.getElementById("result").innerText = "";
+        })
+        .catch(err => {
+          console.error(err);
+          document.getElementById("result").innerText = "Error fetching forecast.";
+        });
+    }
+  </script>
+</body>
+</html>
